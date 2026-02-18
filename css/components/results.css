@@ -1,0 +1,93 @@
+        /* RESULTS (для звірки платежів) */
+        .results {
+            margin-top: 48px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-item {
+            margin-bottom: 24px;
+            padding: 28px 32px;
+            background: var(--gray-50);
+            border-left: 3px solid var(--black);
+        }
+
+        .result-item.success {
+            background: var(--black);
+            color: var(--white);
+            border-left-color: var(--white);
+        }
+
+        .result-item.warning {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-left: 3px solid var(--gray-600);
+        }
+
+        .result-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .result-details {
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .result-item.success .result-details {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .result-item.warning .result-details {
+            color: var(--gray-600);
+        }
+
+        .result-details strong {
+            font-weight: 600;
+        }
+
+        .result-item.success .result-details strong {
+            color: var(--white);
+        }
+
+        .not-found-list {
+            max-height: 240px;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            font-size: 14px;
+        }
+
+        .not-found-list div {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-700);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .not-found-list div:last-child {
+            border-bottom: none;
+        }
+
+        .not-found-list strong {
+            font-weight: 500;
+            color: var(--black);
+        }
+
+        .not-found-list div>span:last-child {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }

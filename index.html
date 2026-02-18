@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Solution | Legal Technology</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/R49xRb5r/2026-01-12-19-28-01.png">
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/login.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/stats.css">
+    <link rel="stylesheet" href="css/components/alerts.css">
+    <link rel="stylesheet" href="css/components/progress.css">
+    <link rel="stylesheet" href="css/components/results.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- ЕКРАН ЛОГІНУ -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-header">
+            <div class="logo">
+                <img src="https://i.ibb.co/R49xRb5r/2026-01-12-19-28-01.png" alt="Just Solution" />
+            </div>
+            <h2 class="login-title">Вхід до системи</h2>
+            <p class="login-subtitle">Legal Technology Tools</p>
+        </div>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Логін</label>
+                <input type="text" class="form-input" id="username" autocomplete="username" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Пароль</label>
+                <input type="password" class="form-input" id="password" autocomplete="current-password" />
+            </div>
+            <div class="error-message" id="loginError">
+                Невірний логін або пароль
+            </div>
+            <button type="submit" class="login-btn">
+                <span>Увійти до системи</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- ГОЛОВНА ПРОГРАМА -->
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="header-top">
+                <div class="logo-main">
+                    <img src="https://i.ibb.co/R49xRb5r/2026-01-12-19-28-01.png" alt="Just Solution" />
+                </div>
+                <button class="logout-btn" onclick="logout()">Вийти</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('payments')">Звірка платежів</button>
+                <button class="tab" onclick="switchTab('iban')">Фільтрація IBAN</button>
+            </div>
+        </div>
+
+        <!-- ТАБ 1: ЗВІРКА ПЛАТЕЖІВ -->
+        <div class="tab-content active" id="paymentsTab">
+            <!-- Тут буде весь контент звірки платежів -->
+            <h1 class="tab-title">Звірка платежів</h1>
+            <p class="tab-subtitle">Автоматизована система обробки платежів боржників</p>
+
+            <!-- Файли, селект, кнопки і т.д. -->
+            
+            <!-- НОВИЙ КРОК 0: Вибір банку -->
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">0</span>
+                    Тип банку
+                </div>
+                <select id="bankTypeSelect">
+                    <option value="">Оберіть тип банку</option>
+                    <option value="original">Оригінальний формат (Аксіліум)</option>
+                    <option value="idea">Ідея Банк</option>
+                    <option value="task">Таскомбанк</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">1</span>
+                    Файл реєстру боржників
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="file1Payments" accept=".xlsx,.xls" />
+                    <label for="file1Payments" class="file-input-label" id="label1Payments">
+                        <div class="file-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">Оберіть основний реєстр</div>
+                            <div class="file-info">Excel файл з інформацією про боржників (.xlsx або .xls)</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">2</span>
+                    Звіт бухгалтерії
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="file2Payments" accept=".xlsx,.xls" />
+                    <label for="file2Payments" class="file-input-label" id="label2Payments">
+                        <div class="file-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">Оберіть звіт про платежі</div>
+                            <div class="file-info">Місячний звіт про транзакції від бухгалтерії (.xlsx або .xls)</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">3</span>
+                    Звітний період
+                </div>
+                <select id="monthSelectPayments">
+                    <option value="">Оберіть місяць</option>
+                </select>
+                <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="showOlderMonthsPayments" style="width: auto; cursor: pointer;">
+                    <label for="showOlderMonthsPayments"
+                        style="font-size: 13px; color: var(--gray-600); cursor: pointer; user-select: none;">
+                        Показати місяці старіше одного місяця
+                    </label>
+                </div>
+            </div>
+
+            <!-- Encoding Selector -->
+            <div class="section">
+                <div class="section-label">
+                    Кодування (Якщо є краказябри)
+                </div>
+                <select id="encodingSelect">
+                    <option value="1251" selected>Windows-1251 (Кирилиця)</option>
+                    <option value="866">DOS CP866 (Стара кирилиця)</option>
+                    <option value="65001">UTF-8 (Сучасне)</option>
+                </select>
+                <div style="margin-top: 8px; font-size: 12px; color: var(--gray-500);">
+                    Змініть це налаштування, якщо текст у файлі відображається некоректно. Перезавантажте файл після
+                    зміни.
+                </div>
+            </div>
+
+            <!-- Column Mapping Section -->
+            <div id="columnMappingSection" class="section hidden">
+                <div class="section-label">
+                    <span class="section-number">4</span>
+                    Налаштування колонок
+                </div>
+
+                <div style="background: var(--gray-50); padding: 24px; border: 1px solid var(--gray-200);">
+                    <!-- File 1 Mapping -->
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--black);">Файл 1:
+                            Реєстр боржників</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Колонка з ПІБ</label>
+                                <select id="colMapFile1Name">
+                                    <option value="">Завантажте файл...</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Номер договору</label>
+                                <select id="colMapFile1Contract">
+                                    <option value="">Завантажте файл...</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Колонка з ІПН</label>
+                                <select id="colMapFile1Ipn">
+                                    <option value="">Завантажте файл...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File 2 Mapping -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--black);">Файл 2:
+                            Звіт бухгалтерії</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Колонка з ПІБ платника</label>
+                                <select id="colMapFile2Name">
+                                    <option value="">Завантажте файл...</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Колонка з сумою</label>
+                                <select id="colMapFile2Amount">
+                                    <option value="">Завантажте файл...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="validation-errors" id="validationErrorsPayments">
+                <h3>Помилки валідації</h3>
+                <ul id="errorListPayments"></ul>
+            </div>
+
+            <button class="btn" id="processBtnPayments" disabled>
+                <span>Виконати обробку</span>
+            </button>
+
+            <div class="results" id="resultsPayments"></div>
+        </div>
+
+        <!-- ТАБ 2: ФІЛЬТРАЦІЯ IBAN -->
+        <div class="tab-content" id="ibanTab">
+            <h1 class="tab-title">Фільтрація IBAN</h1>
+            <p class="tab-subtitle">Виключення зарплатних рахунків з основного реєстру</p>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">1</span>
+                    Основний файл
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="file1Iban" accept=".xlsx,.xls" />
+                    <label for="file1Iban" class="file-input-label" id="label1Iban">
+                        <div class="file-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">Завантажте файл усіх рахунків</div>
+                            <div class="file-info">Excel файл з повним переліком IBAN номерів (.xlsx або .xls)</div>
+                        </div>
+                    </label>
+                </div>
+                <select id="file1ColumnIban" class="hidden">
+                    <option value="">Оберіть колонку з IBAN</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">2</span>
+                    Файл виключення
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="file2Iban" accept=".xlsx,.xls" />
+                    <label for="file2Iban" class="file-input-label" id="label2Iban">
+                        <div class="file-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">Завантажте файл зарплатних рахунків</div>
+                            <div class="file-info">IBAN які будуть виключені з результату (.xlsx або .xls)</div>
+                        </div>
+                    </label>
+                </div>
+                <select id="file2ColumnIban" class="hidden">
+                    <option value="">Оберіть колонку з IBAN</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <span class="section-number">3</span>
+                    Статистика обробки
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Всього записів</div>
+                        <div class="stat-value" id="statFile1Iban">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">До виключення</div>
+                        <div class="stat-value" id="statFile2Iban">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Виключено IBAN</div>
+                        <div class="stat-value" id="statExcludedIban">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">У результаті</div>
+                        <div class="stat-value" id="statResultIban">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generateBtnIban" class="btn" disabled>
+                <span>Виконати фільтрацію</span>
+            </button>
+
+            <div id="successMessageIban" class="success-message">
+                Фільтрацію виконано успішно
+            </div>
+
+            <button id="downloadBtnIban" class="btn secondary hidden">
+                <span>Завантажити результат</span>
+            </button>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">Розроблено <span class="footer-brand">Just Solution</span> • Legal Technology</p>
+        </div>
+    </div>
+
+    <!-- PROGRESS OVERLAY -->
+    <div class="progress-overlay" id="progressOverlay">
+        <div class="progress-container">
+            <div class="progress-header">
+                <div class="progress-title" id="progressTitle">Обробка файлів</div>
+                <div class="progress-subtitle" id="progressSubtitle">Фільтрація IBAN номерів</div>
+            </div>
+
+            <div class="progress-percentage">
+                <div class="progress-percentage-value" id="progressPercentage">0%</div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+            </div>
+
+            <div class="progress-steps" id="progressSteps">
+                <!-- Steps will be dynamically added -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils/dom.js"></script>
+    <script src="js/utils/excel.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/tabs.js"></script>
+    <script src="js/modules/payments.js"></script>
+    <script src="js/modules/iban.js"></script>
+</body>
+
+</html>

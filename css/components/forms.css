@@ -1,0 +1,168 @@
+        /* FILE INPUTS */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 24px;
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--black);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .file-input-label:hover {
+            border-color: var(--gray-300);
+            background: var(--gray-50);
+        }
+
+        .file-input-label:hover::before {
+            transform: scaleX(1);
+        }
+
+        .file-input-label.has-file {
+            background: var(--black);
+            border-color: var(--black);
+            color: var(--white);
+        }
+
+        .file-input-label.has-file::before {
+            transform: scaleX(1);
+            background: var(--white);
+        }
+
+        .file-input-label.error {
+            background: var(--white);
+            border-color: var(--black);
+        }
+
+        .file-input-label.error::before {
+            background: var(--black);
+            transform: scaleX(1);
+        }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border-radius: 4px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label.has-file .file-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .file-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--gray-600);
+            stroke-width: 1.5;
+        }
+
+        .file-input-label.has-file .file-icon svg {
+            stroke: var(--white);
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--black);
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+
+        .file-input-label.has-file .file-name {
+            color: var(--white);
+        }
+
+        .file-info {
+            font-size: 13px;
+            color: var(--gray-500);
+            font-weight: 400;
+        }
+
+        .file-input-label.has-file .file-info {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .file-input-label.error .file-info {
+            color: var(--gray-600);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-top-color: var(--black);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* SELECT */
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            font-size: 15px;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 400;
+            color: var(--black);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 48px;
+        }
+
+        select:hover {
+            border-color: var(--gray-300);
+            background-color: var(--gray-50);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--black);
+        }
