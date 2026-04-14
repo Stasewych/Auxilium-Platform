@@ -64,13 +64,13 @@
             </div>
 
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('payments')">Звірка платежів</button>
-                <button class="tab" onclick="switchTab('iban')">Фільтрація IBAN</button>
+                <!-- <button class="tab active" onclick="switchTab('payments')">Звірка платежів</button> -->
+                <button class="tab active" onclick="switchTab('iban')">Фільтрація IBAN</button>
             </div>
         </div>
 
         <!-- ТАБ 1: ЗВІРКА ПЛАТЕЖІВ -->
-        <div class="tab-content active" id="paymentsTab">
+        <div class="tab-content" id="paymentsTab">
             <!-- Тут буде весь контент звірки платежів -->
             <h1 class="tab-title">Звірка платежів</h1>
             <p class="tab-subtitle">Автоматизована система обробки платежів боржників</p>
@@ -237,7 +237,7 @@
         </div>
 
         <!-- ТАБ 2: ФІЛЬТРАЦІЯ IBAN -->
-        <div class="tab-content" id="ibanTab">
+        <div class="tab-content active" id="ibanTab">
             <h1 class="tab-title">Фільтрація IBAN</h1>
             <p class="tab-subtitle">Виключення зарплатних рахунків з основного реєстру</p>
 
