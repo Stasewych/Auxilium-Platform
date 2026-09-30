@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Об'єднання Excel-файлів · Auxilium</title>
+    <title>Зведення реєстрів · Auxilium</title>
     <link rel="icon" href="../../assets/auxilium-logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="merge.css">
@@ -21,9 +21,23 @@
             <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
-            <div class="dz-title">Перетягніть файли .xlsx сюди</div>
-            <button class="btn btn-secondary" type="button" id="pickBtn" onclick="pickFiles()">Вибрати файли</button>
-            <input type="file" id="fileInput" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple hidden>
+            <div class="dz-title">Перетягніть сюди файли .xlsx, папку або архів ZIP</div>
+            <div class="dz-actions">
+                <button class="btn btn-secondary" type="button" id="pickBtn" onclick="pickFiles()">Вибрати файли</button>
+                <button class="btn btn-secondary" type="button" id="dirBtn" onclick="pickFolder()">Вибрати папку</button>
+            </div>
+            <div class="dz-hint">З папки й архіву беруться всі файли .xlsx, разом із вкладеними папками.</div>
+            <input type="file" id="fileInput" accept=".xlsx,.zip,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip" multiple hidden>
+            <input type="file" id="dirInput" webkitdirectory multiple hidden>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="progress" id="progress" hidden>
+            <div class="progress-head">
+                <span class="progress-label" id="progressLabel"></span>
+                <span class="progress-count" id="progressCount"></span>
+            </div>
+            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
         </div>
 
         <div class="status" id="status" role="status" aria-live="polite"></div>
@@ -34,11 +48,16 @@
                 <span class="panel-title">Файли</span>
                 <div class="panel-actions">
                     <button class="link-btn" type="button" id="sortBtn" onclick="sortByName()">Впорядкувати за назвою</button>
-                    <button class="link-btn" type="button" onclick="clearFiles()">Очистити список</button>
+                    <button class="link-btn" type="button" id="clearBtn" onclick="clearFiles()">Очистити список</button>
                 </div>
             </div>
 
             <ol class="file-list" id="fileList"></ol>
+
+            <p class="manual" id="manual" hidden>
+                <span id="manualText"></span>
+                <button class="link-btn" type="button" id="resetRowsBtn" onclick="resetRows()">Скинути ручний вибір</button>
+            </p>
 
             <div class="option">
                 <span class="option-label" id="headerLabel">Рядків шапки</span>
@@ -52,23 +71,47 @@
                 <span class="option-hint" id="headerHint"></span>
             </div>
 
+            <label class="toggle">
+                <input type="checkbox" id="dedupe" onchange="setDedupe(this.checked)">
+                <span class="toggle-text">
+                    <span class="toggle-title">Прибирати повтори рядків</span>
+                    <span class="toggle-hint">Якщо рядок даних дослівно повторює рядок, що вже є в результаті, лишається тільки перша поява.</span>
+                </span>
+            </label>
+
+            <label class="toggle">
+                <input type="checkbox" id="sourceCol" onchange="setSourceCol(this.checked)">
+                <span class="toggle-text">
+                    <span class="toggle-title">Додати колонку з назвою файлу</span>
+                    <span class="toggle-hint">Праворуч від даних з'являється колонка «Файл», у якій видно, з якого файлу взято рядок.</span>
+                </span>
+            </label>
+
             <ul class="notes" id="notes"></ul>
 
             <div class="result">
                 <p class="summary" id="summary"></p>
+
+                <details class="result-preview" id="resultPreview" open>
+                    <summary>Превю результату</summary>
+                    <div class="preview-scroll" id="resultBox"></div>
+                    <p class="preview-hint" id="resultNote"></p>
+                </details>
+
                 <div class="output">
                     <label class="output-label" for="outName">Назва файлу</label>
                     <div class="output-field">
                         <input type="text" id="outName" autocomplete="off" spellcheck="false" oninput="nameEdited = true">
                         <span class="output-ext">.xlsx</span>
                     </div>
-                    <button class="btn" type="button" id="mergeBtn" onclick="mergeAndDownload()">Об'єднати й завантажити</button>
+                    <button class="btn" type="button" id="mergeBtn" onclick="mergeAndDownload()">Звести й завантажити</button>
                 </div>
             </div>
         </section>
     </main>
 
     <script src="vendor/exceljs.min.js"></script>
+    <script src="vendor/fflate.min.js"></script>
     <script src="merge.js"></script>
 </body>
 </html>
