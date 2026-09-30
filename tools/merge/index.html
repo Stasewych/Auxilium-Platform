@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Об'єднання Excel-файлів · Auxilium</title>
+    <link rel="icon" href="../../assets/auxilium-logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="merge.css">
+</head>
+<body>
+
+    <main class="tool">
+        <p class="tool-intro">
+            Рядки з кількох файлів .xlsx збираються в один аркуш у тому порядку, в якому файли стоять у списку,
+            а шапка лишається один раз зверху. Файли обробляються у браузері й на сервер не передаються.
+        </p>
+
+        <!-- DROPZONE -->
+        <div class="dropzone" id="dropzone">
+            <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div class="dz-title">Перетягніть файли .xlsx сюди</div>
+            <button class="btn btn-secondary" type="button" id="pickBtn" onclick="pickFiles()">Вибрати файли</button>
+            <input type="file" id="fileInput" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple hidden>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <!-- FILES + OPTIONS -->
+        <section class="panel" id="panel" hidden>
+            <div class="panel-head">
+                <span class="panel-title">Файли</span>
+                <div class="panel-actions">
+                    <button class="link-btn" type="button" id="sortBtn" onclick="sortByName()">Впорядкувати за назвою</button>
+                    <button class="link-btn" type="button" onclick="clearFiles()">Очистити список</button>
+                </div>
+            </div>
+
+            <ol class="file-list" id="fileList"></ol>
+
+            <div class="option">
+                <span class="option-label" id="headerLabel">Рядків шапки</span>
+                <div class="segmented" id="headerMode" role="group" aria-labelledby="headerLabel">
+                    <button type="button" class="seg active" data-mode="auto" onclick="setHeaderMode(this)">Авто</button>
+                    <button type="button" class="seg" data-mode="0" onclick="setHeaderMode(this)">0</button>
+                    <button type="button" class="seg" data-mode="1" onclick="setHeaderMode(this)">1</button>
+                    <button type="button" class="seg" data-mode="2" onclick="setHeaderMode(this)">2</button>
+                    <button type="button" class="seg" data-mode="3" onclick="setHeaderMode(this)">3</button>
+                </div>
+                <span class="option-hint" id="headerHint"></span>
+            </div>
+
+            <ul class="notes" id="notes"></ul>
+
+            <div class="result">
+                <p class="summary" id="summary"></p>
+                <div class="output">
+                    <label class="output-label" for="outName">Назва файлу</label>
+                    <div class="output-field">
+                        <input type="text" id="outName" autocomplete="off" spellcheck="false" oninput="nameEdited = true">
+                        <span class="output-ext">.xlsx</span>
+                    </div>
+                    <button class="btn" type="button" id="mergeBtn" onclick="mergeAndDownload()">Об'єднати й завантажити</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="vendor/exceljs.min.js"></script>
+    <script src="merge.js"></script>
+</body>
+</html>

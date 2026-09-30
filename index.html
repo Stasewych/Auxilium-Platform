@@ -56,6 +56,13 @@
                     <span>Перевірка боржників</span>
                 </button>
 
+                <button class="nav-item" data-tool="merge" onclick="openTool(this, 'iframe', 'tools/merge/index.html')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="15" width="18" height="6" rx="1"/><path d="M6.5 10v5"/><path d="M17.5 10v5"/>
+                    </svg>
+                    <span>Об'єднання Excel-файлів</span>
+                </button>
+
                 <button class="nav-item" data-tool="clicker" onclick="openTool(this, 'iframe', 'https://138.68.94.79/')">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M15 15l-2 5L9 9l11 4-5 2z"/><path d="M22 22l-5-5"/>
@@ -113,6 +120,10 @@
                     <button class="welcome-card" onclick="document.querySelector('[data-tool=zvirka]').click()">
                         <span class="wc-title">Звірка надходжень</span>
                         <span class="wc-desc">Перевірка платежів боржників</span>
+                    </button>
+                    <button class="welcome-card" onclick="document.querySelector('[data-tool=merge]').click()">
+                        <span class="wc-title">Об'єднання Excel-файлів</span>
+                        <span class="wc-desc">Зведення кількох файлів .xlsx в один</span>
                     </button>
                 </div>
             </div>
