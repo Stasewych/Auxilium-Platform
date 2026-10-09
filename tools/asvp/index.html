@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ідентифікатори АСВП · Auxilium</title>
+    <link rel="icon" href="../../assets/auxilium-logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asvp.css">
+</head>
+<body>
+
+    <main class="tool">
+        <p class="tool-intro">
+            З постанов АСВП у форматі PDF береться номер виконавчого провадження та ідентифікатор доступу,
+            а з них складається таблиця Excel на дві колонки. Файли обробляються у браузері й на сервер не передаються.
+        </p>
+
+        <!-- DROPZONE -->
+        <div class="dropzone" id="dropzone">
+            <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div class="dz-title">Перетягніть сюди файли PDF, папку або архів ZIP</div>
+            <div class="dz-actions">
+                <button class="btn btn-secondary" type="button" id="pickBtn" onclick="pickFiles()">Вибрати файли</button>
+                <button class="btn btn-secondary" type="button" id="dirBtn" onclick="pickFolder()">Вибрати папку</button>
+            </div>
+            <div class="dz-hint">З папки й архіву беруться всі файли PDF, разом із вкладеними папками.</div>
+            <input type="file" id="fileInput" accept=".pdf,.zip,application/pdf,application/zip" multiple hidden>
+            <input type="file" id="dirInput" webkitdirectory multiple hidden>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="progress" id="progress" hidden>
+            <div class="progress-head">
+                <span class="progress-label" id="progressLabel"></span>
+                <span class="progress-count" id="progressCount"></span>
+            </div>
+            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <!-- RESULT -->
+        <section class="panel" id="panel" hidden>
+            <div class="panel-head">
+                <span class="panel-title">Провадження</span>
+                <div class="panel-actions">
+                    <button class="link-btn" type="button" id="clearBtn" onclick="clearFiles()">Очистити список</button>
+                </div>
+            </div>
+
+            <p class="summary" id="summary"></p>
+
+            <ul class="notes" id="notes"></ul>
+
+            <div class="filter" id="filter" role="group" aria-label="Які рядки показати">
+                <div class="segmented">
+                    <button type="button" class="seg active" data-filter="all" onclick="setFilter(this)">Усі <span class="seg-count" id="countAll"></span></button>
+                    <button type="button" class="seg" data-filter="attention" onclick="setFilter(this)">Потребують уваги <span class="seg-count" id="countAttention"></span></button>
+                </div>
+            </div>
+
+            <div class="table-scroll" id="tableScroll">
+                <table class="vp-table">
+                    <thead>
+                        <tr>
+                            <th class="c-num">№</th>
+                            <th class="c-vp">Номер ВП</th>
+                            <th class="c-id">Ідентифікатор доступу</th>
+                            <th class="c-file">Файл</th>
+                            <th class="c-act"><span class="visually-hidden">Дії</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows"></tbody>
+                </table>
+            </div>
+            <p class="table-hint">Назва файлу відкриває PDF у новій вкладці, щоб звірити дані з постановою.</p>
+
+            <label class="toggle" id="noIdToggle" hidden>
+                <input type="checkbox" id="includeNoId" onchange="setIncludeNoId(this.checked)">
+                <span class="toggle-text">
+                    <span class="toggle-title">Додати провадження без ідентифікатора</span>
+                    <span class="toggle-hint">Номер ВП потрапить у таблицю, а комірка з ідентифікатором лишиться порожньою, щоб було видно, кого бракує.</span>
+                </span>
+            </label>
+
+            <label class="toggle">
+                <input type="checkbox" id="sourceCol" onchange="setSourceCol(this.checked)">
+                <span class="toggle-text">
+                    <span class="toggle-title">Додати колонку з назвою файлу</span>
+                    <span class="toggle-hint">Третьою колонкою «Файл» іде назва PDF, з якого взято рядок.</span>
+                </span>
+            </label>
+
+            <div class="result">
+                <div class="output">
+                    <label class="output-label" for="outName">Назва файлу</label>
+                    <div class="output-field">
+                        <input type="text" id="outName" autocomplete="off" spellcheck="false" oninput="nameEdited = true">
+                        <span class="output-ext">.xlsx</span>
+                    </div>
+                    <button class="btn btn-secondary" type="button" id="copyBtn" onclick="copyTable()">Скопіювати рядки</button>
+                    <button class="btn" type="button" id="saveBtn" onclick="saveExcel()">Завантажити Excel</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../vendor/exceljs.min.js"></script>
+    <script src="../vendor/fflate.min.js"></script>
+    <script src="asvp.js"></script>
+</body>
+</html>
